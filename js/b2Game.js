@@ -5,7 +5,7 @@
 $(function() {
 	
 	$('#game-stage').append('<div id="pawns"></div>');
-	
+
 	b2Game = new function() {
 
 		var timer = 0, // Used for pausing the game

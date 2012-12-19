@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Box2D Game - Tutorial One: Colliding Blocks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="master.css" rel="stylesheet">
+	<style type="text/css">
+		#game-stage {
+			border: 3px solid black;
+			border-radius: 4px;		
+			width:1000px;
+			height:400px;
+			margin-bottom: 20px;
+		}
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="/bootstrap/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="demos.html">Demos</a></li>
+              <li><a href="downloads.html">Downloads</a></li>
+              <li><a href="documentation.html">Documentation</a></li>
+              <li><a href="tutorial1.html">Tutorial</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+			<h2>Tutorial 1: Colliding Blocks</h2>
+
+	  </div>
+		<div id="game-stage" class="container" tabindex></div>
+	  
+	  <div class="row">
+		<div class="span12">
+					
+			<p>
+				The purpose of this tutorial is to familiarize you with the working of Box2DGame.  In this tutorial we will create a box which contains 25 blocks that will bounce around and collide with each other.  This is the first in a series of tutorials which are designed to to help you learn how to write games with Box2DGame.  The only pre-requisites are a basic understanding of HTML and javascript.
+			</p>
+			
+			<h4>HTML Structure</h4>
+			<p>
+				In order to run Box2DGame on a webpage, the page must contain a div with an id of "game-stage" that is given a fixed width and height.  When the page loads, this div will be appended with another div with an id of "pawns" which is used to contain div's which correspond to pawns in the game.  It is neccessary to include jQuery, box2dweb, and b2Game javascript source files. Below is a baseline webpage which can be used for the purposes of these tutorials.
+			</p>
+			
+			<blockquote>
+			<h5>game.html</h5>
+				&lt;html&gt;<br>
+				<span style="margin-left: 20px;">&lt;body&gt;</span><br><br>
+				<span style="margin-left: 40px;">&lt;head&gt;</span><br>
+				<span style="margin-left: 60px;">&lt;style&gt;</span><br>
+				<span style="margin-left: 80px;">#game-stage {</span><br>
+				<span style="margin-left: 100px;">width: 1000px;</span><br>
+				<span style="margin-left: 100px;">height: 400px;</span><br>
+				<span style="margin-left: 80px;">}</span><br>
+				<span style="margin-left: 60px;">&lt;/style&gt;</span><br>
+				<span style="margin-left: 40px;">&lt;/head&gt;</span><br><br>
+				<span style="margin-left: 40px;">&lt;div id="game-stage"&gt;&lt;/div&gt;</span><br><br>
+				<span style="margin-left: 40px;">&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;</span><br>
+				<span style="margin-left: 40px;">&lt;script src="box2dweb.min.js" type="text/javascript"&gt;&lt;/script&gt;</span><br>
+				<span style="margin-left: 40px;">&lt;script src="b2game.js" type="text/javascript"&gt;&lt;/script&gt;</span><br><br>
+				<span style="margin-left: 20px;">&lt;/body&gt;</span><br>
+				&lt;/html&gt;
+			</blockquote>
+			
+			<p>
+				Before proceeding, create a new file called tutorial.js:
+			<blockquote>				
+				<h5>tutorial.js</h5>
+				<span style="margin-left: 20px;">$(document).ready( function() {</span><br><br>
+				
+				<span style="margin-left: 20px;">});</span>
+			</blockquote>
+				and include the following line in the game.html page given above
+			<blockquote>				
+				<span style="margin-left: 20px;">&lt;script src="tutorial.js" type="text/javascript"&gt;&lt;/script&gt;</span>
+			</blockquote>
+			</p>
+			<h4>Creating the Walls</h4>
+			
+			<p>
+				The first step is to create the four walls of the box which will contain the bouncing blocks.  This is accomplished by making use of the b2Game.Pawn function.  Put the following lines into document ready function of tutorial.js, and view the result in your browser.
+			</p>
+			<blockquote>
+				<span style="margin-left: 20px">Wall = function(data) {</span><br><br>
+											
+					<span style="margin-left: 40px">this.__proto__ = new b2Game.Pawn({</span><br><br>
+						<span style="margin-left: 60px">id: 'wall',</span><br>
+						<span style="margin-left: 60px">type: 'static',</span><br>
+						<span style="margin-left: 60px">image: 'images/walltile.jpg',</span><br>
+						<span style="margin-left: 60px">width: data.width,</span><br>
+						<span style="margin-left: 60px">height: data.height,</span><br>
+						<span style="margin-left: 60px">position: {x:data.x,y:data.y},</span><br><br>
+					<span style="margin-left: 40px">});</span><br><br>
+					
+					<span style="margin-left: 40px">b2Game.pawns[this.id] = this;</span><br><br>
+					
+				<span style="margin-left: 20px">}</span><br><br>
+				
+				<span style="margin-left: 20px">new Wall({ x: 0, y: 0, width: b2Game.stage.width*30, height: 30});</span><br><br>
+
+			</blockquote>
+			<p>
+				Let's take a moment to explain what is going on here.  We are creating a function Wall() which is always going to be called with the <code>new</code> operator.  We have set <code>this.__proto__</code> equal to a new instance of the b2Game.Pawn function, the arguments passed to b2Game.Pawn determine various properties of the Wall.  We are setting the "id" parameter equal to "Wall", this means that every Wall will be represented on the screen by a div with an id of wall_X, where X is the wall number.  Since this is the first wall, it will have an id of "wall_1".  The "type" parameter is set to "static", this tells the box2d simulation that the position of the Pawn will never change.  The "image" parameter is the url of the desired image file.  The "width" and "height" parameters are the width and height in pixels of the image.  The position is a vector which represents the position coordinates of the top-left corner of the wall in units of meters. 
+			</p>
+			<p>
+				Box2DGame represents the game world using the meters-kilograms-seconds (MKS) system of units.  Box2DGame currently using a conversion ratio of 30 pixels per meter.  In other words, every 1px on the screen corresponds to 30 meters in the game world.
+			</p>
+			<p>
+				The final piece of code is <code>b2Game.pawns[this.id] = this;</code>.  This line is giving b2Game a pointer to the newly created Pawn Object; this is important because otherwise the Pawn will not call it's update() function during each frame.
+			</p>
+			<p>
+				Now complete the box by adding three more walls and refresh the browser to see the results.  It won't matter that the walls are overlapping because they have been declared as static.
+			
+			<blockquote>			
+			<span style="margin-left: 20px">new Wall({ x: 0, y: b2Game.stage.height - 1, width: b2Game.stage.width*30, height: 30});</span><br>
+			<span style="margin-left: 20px">new Wall({ x: 0, y: 0, width: 30, height: b2Game.stage.height*30});</span><br>
+			<span style="margin-left: 20px">new Wall({ x: b2Game.stage.width - 1, y: 0, width: 30, height: b2Game.stage.height*30});</span><br>
+
+			</blockquote>				
+			
+			<h4>Creating the Pawns</h4>
+			
+			<p>
+				The next step is to create a function to create a new block.  Add the following code to tutorial.js and refresh the browser to see the result.
+			</p>
+<blockquote>		
+	<span style="margin-left: 20px;">Block = function(data) {</span><br><br>		
+		<span style="margin-left: 40px;">		this.__proto__ = new b2Game.Pawn({</span><br>
+			<span style="margin-left: 60px;">id: 'block',</span><br>
+			<span style="margin-left: 60px;">type: 'dynamic',</span><br>
+			<span style="margin-left: 60px;">image: 'images/firewall.png',</span><br>
+			<span style="margin-left: 60px;">height: 30,</span><br>
+			<span style="margin-left: 60px;">width: 30,</span><br>
+			<span style="margin-left: 60px;">restitution: 0.5,</span><br>
+			<span style="margin-left: 60px;">friction: 0.2,</span><br>
+			<span style="margin-left: 60px;">position: {</span><br>
+				<span style="margin-left: 80px;">x:data.x,</span><br>
+				<span style="margin-left: 80px;">y:data.y</span><br>
+			<span style="margin-left: 60px;">},</span><br>
+			<span style="margin-left: 60px;">velocity: data.velocity,</span><br>
+		<span style="margin-left: 40px;">});			</span><br><br>
+
+		<span style="margin-left: 40px;">		b2Game.pawns[this.id] = this;</span><br><br>
+		
+	<span style="margin-left: 20px;">	}	</span><br><br>
+	
+	<span style="margin-left: 20px;">	for( var i = 0; i <= 25; i++ ) {</span><br><br>
+
+		<span style="margin-left: 40px;">new Block({</span><br>
+			<span style="margin-left: 60px;">x: Math.random()*10+5,</span><br>
+			<span style="margin-left: 60px;">y: Math.random()*10+2,</span><br>
+			<span style="margin-left: 60px;">velocity: {</span><br>
+				<span style="margin-left: 80px;">x: (Math.random()-0.5)*10,</span><br>
+				<span style="margin-left: 80px;">y: (Math.random()-0.5)*10</span><br>
+			<span style="margin-left: 60px;">}</span><br>
+		<span style="margin-left: 40px;">});</span><br><br>
+		
+	<span style="margin-left: 20px;">}</span><br>
+</blockquote>
+			<p>
+				Let's take a look at what's going on here: just like before we are passing a bunch of arguments to a new instance of b2Game.Pawn.  In this case, our blocks will be represented by div's which have an id of "block_1", "block_2", and so on.  The "type" parameter has been set to "dynamic", which tells the box2d physics engine to treat the block dynamically.  The friction has been set to 0.2, this determines how much energy is lost during a collision.  The restitution has been set to 0.5, this determines how much bounce each block gets after each collision; a resitution greater than 1 means the block will move faster after it bounces away, and a restitution less than 1 means it will more slower.
+			</p>
+			<p>
+				The next step is simply to use a for loop to create 25 blocks with random positions and velocities.
+			</p>
+			<h4>Run the Game</h4>
+			
+			<p>
+				Add the following line to your code, and refresh the browser to see the result.
+			</p>
+			<blockquote>				
+				<span style="margin-left: 40px;">b2Game.run()</span>
+			</blockquote>
+			<p>
+				That's it!  It really is that easy.  All of the blocks should fall down and come to rest under the influence of gravity, which by default is set to -10 in the y direction.  It is quite simple to change gravity, for example to turn it off you could add the following line to your code:
+				<blockquote>
+					<span style="margin-left: 40px;">b2Game.world.SetGravity({ x: 0, y: 0});</span><br>
+				</blockquote>
+				In this case we are accessing a standard API call, SetGravity(), from the box2d world Object.  You can reproduce the example given above by turning off gravity, setting friction to 0, and restitution to 1.  Feel free to experiment with these values. 
+			</p>
+			<p>
+				Box2d is a rich framework which offers a great deal of useful features.  For more information on the box2d world object and it's various properties, see the <a href="#">box2d flash documentation</a>.
+			</p>
+		</div>
+	  </div>
+	  
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/jquery.js"></script>
+		<script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>
+		<script type="text/javascript" src ="js/b2Game.js"></script>
+		<script type="text/javascript" src ="js/tutorial1.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Box2D Game - An open source javaScript, HTML, and CSS based game engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="master.css" rel="stylesheet">
+    <style type="text/css">
+		#game-stage {
+			border: 3px solid black;
+			border-radius: 4px;					
+			width:inherit;
+			height:400px;
+			margin-bottom: 20px;
+		}
+		
+		.demo-portrait {
+			width: 250px;
+		}		
+
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="/bootstrap/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="demos.html">Demos</a></li>
+              <li><a href="downloads.html">Downloads</a></li>
+              <li><a href="documentation.html">Documentation</a></li>
+              <li><a href="tutorial1.html">Tutorial</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Box2DGame</h1>
+        <p>An Open Source Framework for JavaScript Browser Games<p>
+
+	  </div>
+		<div id="game-stage" class="container" tabindex></div>
+	  
+	  <div class="row">
+		<div class="span8">
+			<h3>A Game Engine Based on Physics</h3>
+			<p>
+				Welcome to the homepage for Box2DGame, a javascript game engine based on <a href="http://code.google.com/p/box2dweb/">box2dweb</a>. Browser based gaming is still in it's infancy, and javascript games are fast becoming a viable alternative to Flash. Box2DGame is written in the native language of web browsers; javascript is used for functionality, and HTML/CSS are used to display graphics and animations. 
+			</p>
+			<p>
+				The overwhelming majority of the <a href="https://github.com/bebraw/jswiki/wiki/Game-Engines">existing javascript game engines</a> either do not have a physics engine, or else the physics engine is added in as an afterthought.  Box2DGame is different, becuase the physics engine is it's foundation.  Every game made with Box2DGame runs a rigid-body physics simulation in the background, and objects in the scene, including the player character, are moved by applying forces to them.  This approach is not only good for performance, it can also vastly simplify many aspects of game development.
+			</p>
+			<p>
+
+				In order to raise the overall quality of javascript games, developers need better frameworks.  <a href="http://box2d.org/">Box2d</a> is a 40 year old open source framework which has been used by countless developers, has a large number of useful features, and has algorithms that have been optimized for perfomance.  The goal of Box2Dgame is <em>to create an easy to use API that supplements box2dweb with important features needed by game developers.</em>
+			</p>
+			
+				
+		</div>
+		<div class="span4">
+			<h4>Features</h4>
+			<ul>
+				<li>High Performance Physics Engine</li>
+				<li>Robust Collision Detection Algorithm's</li>
+				<li>HTML/CSS Based Graphics and Animations</li>
+				<li>Designed to be used with jQuery</li>
+				<li>Backgrounds</li>
+			</ul>
+			
+		</div>
+		<div class="span4 pull-right">
+			<h4>Upcoming Projects</h4>
+			<ul>
+				<li>Support for Multi-component Pawns</li>
+				<li>Support for Multiple Background Images</li>
+				<li>Optimize Performance for Scrolling Backgrounds</li>
+				<li>Implement unused box2d features</li>
+				<li>Music/Sound Effects</li>
+			</ul>
+			
+		</div>
+
+	  </div>
+	  <div class="span12">
+			<h3>More Demo's</h3>
+	  
+	  		<a href="platformer-demo.html"><img class="demo-portrait" src="images/platformer-demo.png"/></a>
+			<a href="pinball-demo.html"><img class="demo-portrait" src="images/pinball-demo.png"/></a>
+			<a href="collision-demo.html"><img class="demo-portrait" src="images/collision-demo.png"/></a>
+	  </div>
+
+		<script src="/jquery.js"></script>
+		<script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>
+		<script type="text/javascript" src ="js/b2Game.js"></script>
+		<script type="text/javascript" src ="js/shooter-demo.js"></script>
+		<script type="text/javascript" src ="js/main.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<html lang="en">
+  <head>
+
+    <style type="text/css">
+
+		#game-stage {
+			border: 3px solid black;
+			border-radius: 4px;
+			position: relative; 
+			overflow:hidden; 
+			width:1000px;
+			height:400px;
+			margin-bottom: 20px;
+		}
+
+    </style>
+  </head>
+
+  <body>
+
+	<div id="game-stage" class="container" tabindex></div>
+
+	
+	<div id="gravity">
+		<h4>Use the arrow keys to control the force of gravity in the X and Y directions.</h4>
+		<h1>Gravity</h1>
+		<h2>X: <span id="grav-x">0</span>, Y: <span id="grav-y">0</span></h2>
+	</div>
+	
+	
+	<script src="/jquery.js"></script>
+	<script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>
+	<script type="text/javascript" src ="js/b2Game.js"></script>
+	<script type="text/javascript" src="js/collision-demo.js"></script>
+
+  </body>
+</html>

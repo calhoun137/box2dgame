@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Box2DGame - Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="master.css" rel="stylesheet">
+    <style type="text/css">
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+	  
+	  .span9 h4, #pawn-class {
+		padding-top:40px;
+	  }
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="demos.html">Demos</a></li>
+              <li><a href="downloads.html">Downloads</a></li>
+              <li><a href="documentation.html">Documentation</a></li>
+              <li><a href="tutorial1.html">Tutorial</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Box2D</li>
+				  <li><a href="manual.pdf">Box2D Manual</a></li>
+				  <li><a href="http://www.box2dflash.org/docs/2.1a/reference/">Box2D Flash Documentation</a></li>			
+              <li class="nav-header">The b2Game Object</li>
+				  <li><a href="#world">world</a></li>
+				  <li><a href="#fps">fps</a></li>
+				  <li><a href="#keyPress">keyPress</a></li>
+				  <li><a href="#pawns">pawns</a></li>
+				  <li><a href="#stage">stage</a></li>
+				  <li><a href="#run">run()</a></li>
+				  <li><a href="#pause">pause()</a></li>
+				  <li><a href="#update">update()</a></li>
+				  <li><a href="#update-functions">updateFunctions</a></li>
+				  <li><a href="#background">background()</a></li>
+				  <li><a href="#edge">edge</a></li>
+				  <li><a href="#debug">debug()</a></li>
+              <li class="nav-header"><a href="#pawn-class">The Pawn Class</a></li>
+				  <li><a href="#pawn-constructor">constructor</a></li>
+				  <li><a href="#pawn-id">id</a></li>
+				  <li><a href="#pawn-body">body</a></li>
+				  <li><a href="#pawn-update">update()</a></li>
+				  <li><a href="#pawn-die">die()</a></li>
+				  <li><a href="#pawn-outofbounds">outOfBounds()</a></li>
+				  <li><a href="#pawn-playanimation">playAnimation()</a></li>
+				  <li><a href="#pawn-revert">revert()</a></li>
+				  <li><a href="#pawn-setscale">setScale()</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+
+			<h2> The b2Game Object </h2>
+			<p>
+			The API of Box2DGame is centered upon a global object called b2Game.  Each "thing" in the game is represented as an javascript Object called a Pawn.  Each Pawn is displayed on the screen as a div, with the in-line styles "background-image: url(...); position: absolute; left: X; top: Y;", and rotation is displayed by using style properties as well.
+			</p>
+			<p>
+			In order to determine how to change the positions and rotations of the Pawn's in the game each frame, Box2DGame runs a rigid-body physics simulation (box2dweb) which is hidden from the user.  For every Pawn in the game, the physics simulation contains a <a href="http://en.wikipedia.org/wiki/Rigid_body" >rigid body</a> which represents that pawn, and the boundary of each body can be either a circle or a <a href="http://mathworld.wolfram.com/ConvexPolygon.html">convex polygon</a>.  All collision detection is performed by accessing the box2dweb API, for which there are several methods available at a global and local level. 
+			</p>
+			<p>
+			Each frame, the box2d simulation advances one step, and each Pawn runs a method called update(), which is responsible for changing the Pawns position and rotation as a result of the simulation, and for any additional behavior it might have.
+			<img src="images/diagram.png" />
+			</p>
+			
+			<h4 id="world">b2Game.world</h4>
+			<p>
+			The traditional world object from box2d.  See the <a href="http://www.box2dflash.org/docs/2.1a/reference/">box2d documentation</a> for more information.
+			</p>
+			<h4 id="fps">b2Game.fps</h4>
+			<p>
+			A public variable which determines the frames per second at which the game is running.
+			</p>
+			<h4 id="keyPress">b2Game.keyPress</h4>
+			<p>
+			A public object designed to streamline the proccess of detecting user input, including resolving multiple key presses at the same time.  The event keyCode is recorded in the b2Game.keyPress object as a key; it has a structure of <code>b2Game.keyPress[event.keyCode] = true</code>.  For example, if the player presses the left arrow, which has the keyCode 37, then b2Game.keyPress would have a key <code>37</code> corresponding to a value of true, and we can detect the keyPress by checking <code>if( b2Game.keyPress[37] )</code> within the <code>Pawn.update()</code> method.  If we wished to detect if the left and up arrows keys were being pressed at the same time, we could check <code>if( b2Game.keyPress[37] && b2Game.keyPress[38] )</code>.
+			</p>
+			<h4 id="pawns">b2Game.pawns</h4>
+			<p>
+			A public object which keeps pointers to every Pawn in the game, it has the structure <code>b2Game.pawns[Unique Pawn ID] = Pawn Object</code>.
+			</p>
+			<h4 id="stage">b2Game.stage</h4>
+			<p>
+			 Box2DGame takes place within a div with an id of "game-stage"; this helps streamline the proccess embedding games within an existing web page.  b2Game.stage is a public object with only two elements, and b2Game.stage.width and b2Game.stage.height, which are both numbers which represent the width and height of the game-stage div in pixels.
+			</p>
+			<h4 id="run">b2Game.run()</h4>
+			<p>
+			Runs the game engine using <a href='#'>setInterval()</a>.
+			</p>
+			<h4 id="pause">b2Game.pause()</h4>
+			<p>
+			Pauses a currently running game.
+			</p>
+			<h4 id="update">b2Game.update()</h4>
+			<p>
+			A public method which is called every interval by b2Game.run().  This function updates the box2d simulation by advancing the world one step, and then accesses b2Game.pawns and runs the update() method for each pawn in the game.  See diagram above for more information, as well as the documentation for the Pawn.update() method.
+			</p>
+			<h4 id="update-functions">b2Game.updateFunctions</h4>
+			<p>
+			A public object which is used to faciliate the proccess of adding or removing additional global behavior to the b2Game.update() method, it has a structure of <code>b2Game.updateFunctions[Function Name] = function() {...}</code>.  Every frame, b2Game.update() checks if there are any functions in b2Game.updateFunctions and runs each of those functions one time.
+			</p>
+			<h4 id="debug">b2Game.debug()</h4>
+			<p>
+			A public method which when run will replace all of the graphics with the box2d default draw representation.  This allows the developer to view the typically hidden physics simulation which is running in the background.  Calling <code>b2Game.debug('kill')</code> will end the debug mode, and <code>b2Game.debug('mixed')</code> will show the debug drawing mode as well as the graphics for each of the pawns. 
+			</p>
+			<h4 id="background">b2Game.background(properties)</h4>
+			<p>
+			A public method which is used for creating, changing, and scrolling the background image of the game-stage.  The argument of this function is an Object with the following members: 
+			<ul>
+				<li><strong>image</strong> * - The url of the background image.</li>
+				<li><strong>x</strong> - Determines the initial background-position-x property.  Default value of 0.</li>
+				<li><strong>y</strong> - Determines the initial background-position-y property.  Default value of 0.</li>
+				<li><strong>z</strong> - Determines the z-index property.  Default value of -1.</li>
+				<li><strong>velocity</strong> - A Object of the form <code>{ x: X, y: Y }</code> which determines the initial velocity vector of the Background in  units of meters/second.  The default value is <code>{ x: 0, y: 0 }</code></li>
+				<li><strong>noRepeat</strong> - Sets the "background-repeat" property to "no-repeat".</li>
+			</ul>
+			<h4 id="background">b2Game.edge</h4>
+			<p>
+			A public Object with two methods which are useful for creating chains of edges in the game world.
+			<ul>
+				<li><strong>setProperties(parameters)</strong> - The url of the background image.</li>
+				<li><strong>create()</strong> - Accepts an unlimited number of arguments.  Each argument is a b2Vector Object of the form {x:X, y:Y}.  This function will create a chain of edges between each vector point which is given as an argument.  The physical properties of these edges can be adjusted using the b2Game.edge.setProperties() method.</li>
+			</ul>
+			</p>
+			<h2 id="pawn-class"> The Pawn Class </h2>
+			<p>
+			Each "thing" in the game world is represented by Box2DGame as a javascript Object called a Pawn.  In order to faciliate the proccess of adding customized behavior, Box2DGame takes an object-oriented approach to handling Pawns.  The Pawn class is designed to be extended by making use of the __proto__ property; a very basic example is the following:
+			</p>
+			<blockquote>		
+				<span style="margin-left: 20px;">ExamplePawn = function() {</span><br><br>		
+					<span style="margin-left: 40px;">		this.__proto__ = new b2Game.Pawn({</span><br>
+						<span style="margin-left: 60px;">id: 'example',</span><br>
+						<span style="margin-left: 60px;">type: 'dynamic',</span><br>
+						<span style="margin-left: 60px;">image: 'images.png',</span><br>
+						<span style="margin-left: 60px;">height: 30,</span><br>
+						<span style="margin-left: 60px;">width: 30,</span><br>
+						<span style="margin-left: 60px;">position: {</span><br>
+							<span style="margin-left: 80px;">x:1,</span><br>
+							<span style="margin-left: 80px;">y:1</span><br>
+						<span style="margin-left: 60px;">},</span><br>
+					<span style="margin-left: 40px;">});			</span><br><br>
+
+					<span style="margin-left: 40px;">		b2Game.pawns[this.id] = this;</span><br><br>
+					
+				<span style="margin-left: 20px;">	}	</span><br><br>
+			</blockquote>
+			<p>
+			The pawn can then be placed in the game world and on the screen by calling <code>new ExamplePawn()</code>.  The reason for including the line <code>b2Game.pawns[this.id] = this</code> is to give the b2Game object a pointer to each newly created Pawn; this way the Pawn's update() method will be called every frame.
+			<p>
+						
+			<h4 id="pawn-constructor">Pawn Constructor</h4>
+			<p>
+			When instantiating a new Pawn object, the constructor accepts an Object which may contain various parameters, all of which are documented below.  Required parameters are marked with a *: 
+			<ul>
+				<li><strong>id</strong> * - A string which is used to generate a unique ID for the pawn.</li>
+				<li><strong>type</strong> * - Accepts a string, only works with 'static', 'dynamic', and 'kinematic'.  Static bodies cannot move, while dynamic bodies are controlled by the physics engine.  See the Box2D manual for more information. </li>
+				<li><strong>image</strong> * - The url of the image which is used as a graphic for the Pawn.</li>
+				<li><strong>height</strong> * - The height of the Pawn in pixels.</li>
+				<li><strong>width</strong> * - The width of the Pawn in pixels.</li>
+				<li><strong>position</strong> * - A Object of the form <code>{ x: X, y: Y }</code> which determines the initial position of the top left hand corner of the Pawn's bounding box, in units of meters.</li>
+				<li><strong>velocity</strong> - A Object of the form <code>{ x: X, y: Y }</code> which determines the initial velocity vector of the Pawn in  units of meters/second.  The default value is <code>{ x: 0, y: 0 }</code></li>
+				<li>
+					<strong>animation</strong> - An Object which contains the following parameters.  For more information, see the <a href="#">section on Animations</a>.
+					<ul>
+						<li><strong>cooldown</strong> - The number of game frames which pass inbetween each step of animation.</li>
+						<li><strong>framesWide</strong> - The number of images contained in one row of the Pawns sprite sheet.</li>
+					</ul>
+				</li>
+				<li><strong>density</strong> - The density of the Pawn</li>
+				<li><strong>friction</strong> - The coeffecient of friction which determines sliding behavior, among other things.</li>
+				<li><strong>maxSpeed</strong> - Enforces a maximum possible speed in any direction.</li>
+				<li><strong>fixedRotation</strong> - Prevents the Pawn from rotating for any reason. </li>
+				<li><strong>categoryBits</strong> - Used for ignoring collisions between certain bodies.  See the Box2D documentation for more information.</li>
+				<li><strong>maskBits</strong> - Used for ignoring collisions between certain bodies.  See the Box2D documentation for more information.</li>
+			</ul>
+			
+			See the tutorials for numerous examples of using the Pawn constructor.
+			</p>	
+			<h4 id="pawn-id">Pawn.id</h4>
+			<p>
+			A unique string which identifies the Pawn, and acts as the id element of the div which displays the graphics for the Pawn.
+			</p>
+			<h4 id="pawn-body">Pawn.body</h4>
+			<p>
+			The standard b2body Object which is associated with the Pawn.
+			</p>
+			<h4 id="pawn-update">Pawn.update()</h4>
+			<p>
+			A fundamentally important method which is called every frame, and which is resposible for changing the position and rotation of the Pawn every frame, as well as any other custom behavior. 
+			</p>
+			<h4 id="pawn-die">Pawn.die()</h4>
+			<p>
+			Safetly removes the Pawn from the game screen, the b2Game.pawns Object, and the box2d simulation.
+			</p>
+			<h4 id="pawn-outofbounds">Pawn.outOfBounds()</h4>
+			<p>
+			Returns true if the Pawn is out of bounds of the game-stage, returns false otherwise.
+			</p>
+			<h4 id="pawn-playanimation">Pawn.playAnimation(<em>startFrame, numFrames, newCooldown</em>)</h4>
+			<p>
+			Animations are handled by Box2DGame by using <a href="http://css-tricks.com/css-sprites/">sprite sheets</a>.  The height and width of the Pawn are used as the anchor which determines how many pixels to move while stepping through each frame of animation. startFrames is the initial frame of the desired animation, it is an Object of the form {x:X, y:Y} which specifies the initial x and y coordinates on the sprite sheet, with {x:0,y:0} representing the image in the top left hand corner of the sprite sheet.  numFrames is the number of frames to step through during the animation sequence, and newCooldown is an optional parameter which allows the client to specify a new cooldown time for the animation.
+			</p>
+			<h4 id="pawn-revert">Pawn.revert(<em>x,y</em>)</h4>
+			<p>
+			Changes the background-position property of the div which represents the Pawn in the DOM to new x and y coordinates.
+			</p>
+			<h4 id="pawn-setscale">Pawn.setScale(axis)</h4>
+			<p>
+			Accepts an object of the form {x:X, y:Y}.  Changes the -webkit-transform: scaleX() and scaleY() properties of the Pawn's div.  These are useful for reflecting images along the x or y axis, as well as for scaling the size of the image.  If axis.x or axis.y is undefined, then the corresponding -webkit-transform: scale() property will remain unchanged.
+			</p>
+        </div><!--/span-->
+      </div><!--/row-->
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+     <script src="/jquery.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
+   	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
+	<script type="text/javascript" src ="b2Game.js"></script>
+
+
+  </body>
+</html>

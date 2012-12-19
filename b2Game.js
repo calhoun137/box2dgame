@@ -3,9 +3,9 @@
 // ---------------------------------------------------- //
 
 $(function() {
-  
-	$('#game-stage').append('<div id="pawns"></div>');
 	
+	$('#game-stage').append('<div id="pawns"></div>');
+
 	b2Game = new function() {
 
 		var timer = 0, // Used for pausing the game
@@ -209,7 +209,7 @@ $(function() {
 				fixDef = new b2FixtureDef, 
 				bodyDef = new b2BodyDef,
 				updateFunctions = {},  // Used for adding/removing various behavior to the Pawn
-				style = 'style="background-image:url('+data.image+'); position:absolute; height: '+data.height+'px; width: '+data.width+'px; -webkit-transform-origin: ' + data.width/2 + 'px ' + data.height/2 + 'px ; left: ' + data.position.x*ppm + 'px; top: ' + data.position.y*ppm + 'px;',
+				style = 'style="background-image:url('+data.image+'); position:absolute; height: '+data.height+'px; width: '+data.width+'px; -webkit-transform-origin: ' + data.width/2 + 'px ' + data.height/2 + 'px ; -moz-transform-origin: ' + data.width/2 + 'px ' + data.height/2 + 'px ; left: ' + data.position.x*ppm + 'px; top: ' + data.position.y*ppm + 'px;',
 				scale = { x:1, y:1 }; // used to set the scaleX/scaleY style property of -webkit-transform
 		
 			// Set the Box2D fixture definitions for this Pawn
@@ -252,7 +252,7 @@ $(function() {
 			
 			if( data.angle ) {
 				bodyDef.angle = data.angle;
-				style += '-webkit-transform: rotate('+(180/Math.PI)*data.angle+'deg);';				
+				style += '-webkit-transform: rotate('+(180/Math.PI)*data.angle+'deg); -moz-transform: rotate('+(180/Math.PI)*data.angle+'deg);';				
 			}
 
 			// Set userData which is used for collision detection
@@ -363,6 +363,7 @@ $(function() {
 				$('#'+id).css('left', position.x*ppm - data.width/2);
 				$('#'+id).css('top', position.y*ppm - data.height/2);
 				$('#'+id).css('-webkit-transform', 'scaleX(' + scale.x + ') scaleY(' + scale.y + ') rotate('+(180/Math.PI)*this.body.GetAngle()+'deg)');	
+				$('#'+id).css('-moz-transform', 'scaleX(' + scale.x + ') scaleY(' + scale.y + ') rotate('+(180/Math.PI)*this.body.GetAngle()+'deg)');	
 				for( var key in updateFunctions ) updateFunctions[key]();
 												
 			}

@@ -7,6 +7,14 @@ $(function(){
 		$('#fullscreen').replaceWith('')			
 	})
 	
+	$(document).keydown(function(event) {
+		event.preventDefault();
+	});
+	
+	$(document).keyup(function(event) {
+		event.preventDefault();
+	});
+	
 	Wall = function(data) {
 								
 		this.__proto__ = new b2Game.Pawn({

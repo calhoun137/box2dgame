@@ -9,7 +9,7 @@ $(function(){
 		this.__proto__ = new b2Game.Pawn({
 			id: 'player',
 			type: 'dynamic',
-			image: '/b2Game/images/playerA.png',
+			image: 'images/playerA.png',
 			width: 75,
 			height: 44,
 			maxSpeed: 25,
@@ -36,7 +36,7 @@ $(function(){
 			
 				switch( key ) {
 
-					case '65':
+					case '32':
 						if( cooldownTimer === 0 ) {
 							new Shot(position);
 							this.playAnimation({x:0,y:1}, 4);
@@ -98,7 +98,7 @@ $(function(){
 			this.__proto__ =  new b2Game.Pawn({
 			
 				id: 'shot', 
-				image:'/b2Game/images/shot.png', 
+				image:'images/shot.png', 
 				type: 'dynamic',
 				position: {
 					x: position.x+2,
@@ -138,7 +138,7 @@ $(function(){
 		this.__proto__ = new b2Game.Pawn({
 		
 			id:'enemy', 
-			image:'/b2Game/images/enemy.png', 
+			image:'images/enemy.png', 
 			type: 'dynamic',
 			position:{
 				x: b2Game.stage.width - 1, 
@@ -170,7 +170,7 @@ $(function(){
 		this.__proto__ = new b2Game.Pawn({
 		
 			id: 'explosion',
-			image: '/b2Game/images/explosion.png',
+			image: 'images/explosion.png',
 			animation: {
 				anchor: { x:64, y: 64 },
 				framesWide: 5,
@@ -207,7 +207,7 @@ $(function(){
 	b2Game.world.SetGravity({ x:0, y:0 });
 
 	b2Game.background({ 
-		image: '/b2Game/images/spacebig.jpg',
+		image: 'images/spacebig.jpg',
 		velocity: { x: -2, y: 0 },
 	});
 	
